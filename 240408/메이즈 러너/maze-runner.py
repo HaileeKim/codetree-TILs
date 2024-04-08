@@ -17,7 +17,7 @@ def try_movement(exit):
     
     # print(people_arr)
     global M, visited
-    for pid in range(M):
+    for pid in range(len(people_arr)):
         # 현재 칸과 출구까지의 최단 거리
         x1 = people_arr[pid][0]
         y1 = people_arr[pid][1]
