@@ -14,11 +14,11 @@ def in_range(r, c):
     return 0<r<N+1 and 0<c<N+1
 
 def try_movement(exit):
+    
     # print(people_arr)
-    global M
+    global M, visited
     for pid in range(M):
         # 현재 칸과 출구까지의 최단 거리
-        is_moved[pid] = True
         x1 = people_arr[pid][0]
         y1 = people_arr[pid][1]
         x2 = exit[0]
@@ -48,27 +48,32 @@ def try_movement(exit):
                 else:
                     board[n_r][n_c] = -1        # 참가자가 있는 칸은 -1 로 표시
                     # print(x1, y1, n_r, n_c)
+                    
                 break
 
             # 이동 못한 경우
             else:
                 board[x1][y1] = -1        # 참가자가 있는 칸은 -1 로 표시
                 # print(x1, y1)
+        visited.add((people_arr[pid][0], people_arr[pid][1]))
 
 # 한 명 이상의 참가자와 출구를 포함한 가장 작은 정사각형 찾기
 # 1. r 좌표가 작은 것이 우선 
 # 2. c 좌표가 작은 것이 차선
 def find_square():
     flag = False
+    global visited
     # print(people_arr)
+    
+    # print("visited : ", visited)
+    # print("people : ", people_arr)
     for n in range(2, N):
         for s_r in range(1, N - n + 1):
             for s_c in range(1, N - n + 1):
                 r = s_r + n - 1
                 c = s_c + n - 1
                 if s_r <= exit[0] <= r and s_c <= exit[1] <= c:
-                    # print(people_arr)
-                    for pid_r, pid_c in people_arr:
+                    for pid_r, pid_c in visited:
                         if s_r <= pid_r <= r and s_c <= pid_c <= c:
                             start = [s_r, s_c]
                             end = [r, c]
@@ -122,7 +127,6 @@ if __name__ == "__main__":
     max_M = 11
     mak_K = 100
     exit = [0, 0]
-    is_moved = [False] * max_M
     board = [[0]*max_N for _ in range(max_N)]
     people_arr = [[0,0] for _ in range(max_M)]
     dist = [0] * max_M
@@ -133,7 +137,7 @@ if __name__ == "__main__":
     for i in range(1, N+1):
         board[i][1:] = list(map(int, input().split()))
     for i in range(M):
-        people_arr[i][:] = list(map(int, input().split()))
+        people_arr[i] = list(map(int, input().split()))
     exit = list(map(int, input().split()))
 
     # print(board)
@@ -145,6 +149,8 @@ if __name__ == "__main__":
         # 참가자가 모두 미로 탈출했을 때 -> break
         # print(board)
         # print("k = ", i)
+        
+        visited = set()
         try_movement(exit)
 
         if len(people_arr) == 0:
