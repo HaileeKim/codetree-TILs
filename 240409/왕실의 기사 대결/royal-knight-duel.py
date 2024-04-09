@@ -121,7 +121,7 @@ def move_knights(idx, d):
             r[pid] = nr[pid]
             c[pid] = nc[pid]
             k[pid] -= dmg[pid]
-            print(pid, dmg[pid])
+            # print(pid, dmg[pid])
 
 
 if __name__ == "__main__":
@@ -157,7 +157,7 @@ if __name__ == "__main__":
 
     ans = 0
 
-    print(init_k, k)
+    # print(init_k, k)
     for i in range(1, N+1):
         if k[i] > 0:
             ans += init_k[i] - k[i]
