@@ -43,9 +43,9 @@ def try_movement(idx, d):
         for i in range(1, N+1):
             if is_moved[i] or k[i] <= 0:
                 continue
-            if r[i] > nr[x] + h[x] - 1 and nr[x] < r[i] + h[i] - 1:
+            if r[i] > nr[x] + h[x] - 1 or nr[x] > r[i] + h[i] - 1:
                 continue
-            if c[i] > nc[x] + w[x] - 1 and nc[x] < c[i] + w[i] - 1:
+            if c[i] > nc[x] + w[x] - 1 or nc[x] > c[i] + w[i] - 1:
                 continue
 
             is_moved[i] = True
@@ -90,7 +90,6 @@ if __name__ == "__main__":
     for q in range(Q):
         idx, d = map(int, input().split())
         move_knights(idx, d)
-        # print(init_k, k)
 
     ans = sum([init_k[i] - k[i] for i in range(1, N + 1) if k[i] > 0])
     print(ans)
